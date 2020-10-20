@@ -57,8 +57,8 @@ class ApiVK:
                 photo_info = []
                 name = photo['likes']['count']
                 names = [item[0] for item in album_info[album_title]]
-                while (str(name) + '.jpg') in names:
-                    name += 1
+                if (str(name) + '.jpg') in names:
+                    name = str(name) + '(' + str(photo['date']) + ')'
                 photo_info.append(str(name) + '.jpg')
                 photo_info.append(self.get_max_size(photo)[0])
                 photo_info.append(self.get_max_size(photo)[1])
