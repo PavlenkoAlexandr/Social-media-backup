@@ -1,10 +1,10 @@
-from google.oauth2 import service_account
-from googleapiclient.http import MediaIoBaseDownload,MediaFileUpload
+from googleapiclient.http import MediaFileUpload
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 import os
 import requests
+
 
 class GoogleApi:
 
@@ -40,7 +40,8 @@ class GoogleApi:
 
     def files_list(self):
         response = self.SERVICE.files().list(
-            q='',spaces='',
+            q='',
+            spaces='',
             fields='nextPageToken, files(id, name)',
         ).execute()
         for file in response.get('files', []):

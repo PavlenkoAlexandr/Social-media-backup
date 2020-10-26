@@ -1,6 +1,4 @@
 import requests
-import urllib.parse
-import os
 
 
 class YaUploader:

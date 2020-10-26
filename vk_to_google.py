@@ -6,10 +6,11 @@ import json
 
 def run():
 
-    vk_id = str(input('Введите ID страницы Вконтакте: '))
-    vk_token = str(input('Введите токен: '))
+    vk_id = str(input('Введите ID или User_name страницы Вконтакте: '))
+    vk_token = str(input('Введите токен доступа ВК: '))
 
     apivk = Vkapi.ApiVK(vk_id, vk_token)
+    apivk.user_id = apivk.get_userid(vk_id)
     g = GoogleDriveAPI.GoogleApi()
 
     all_photos = apivk.get_photos_info(apivk.get_albums())
@@ -19,7 +20,7 @@ def run():
     vk_dir_id = g.get_id('vk')
 
     for key, value in all_photos.items():
-        g.make_dir(key,[vk_dir_id])
+        g.make_dir(key, [vk_dir_id])
         print(f'Загрузка фотографий из альбома "{key}"')
         for photo in tqdm.tqdm(value):
             url = photo[1]

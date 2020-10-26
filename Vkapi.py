@@ -6,6 +6,11 @@ TOKEN = ''
 V = '5.21'
 
 
+def get_date(time):
+    date = datetime.datetime.fromtimestamp(time)
+    return str(date).replace(':', '-').replace(' ', '_')
+
+
 class ApiVK:
 
     def __init__(self, user_id, token=TOKEN, v=V):
@@ -13,6 +18,19 @@ class ApiVK:
         self.token = token
         self.v = v
         self.user_id = user_id
+
+    def get_userid(self, ids):
+        user_id = ''
+        method = 'users.get'
+        params = {
+            'access_token': self.token,
+            'v': self.v,
+            'user_ids': ids,
+        }
+        response = requests.get(urljoin(self.base_url, method), params=params)
+        for data in response.json()['response']:
+            user_id = data['id']
+        return user_id
 
     def get_albums(self):
         method = 'photos.getAlbums'
@@ -58,7 +76,7 @@ class ApiVK:
                 name = photo['likes']['count']
                 names = [item[0] for item in album_info[album_title]]
                 if (str(name) + '.jpg') in names:
-                    name = str(name) + '(' + str(datetime.datetime.fromtimestamp(photo['date'])).replace(':','-') + ')'
+                    name = str(name) + '(' + get_date(photo['date']) + ')'
                 photo_info.append(str(name) + '.jpg')
                 photo_info.append(self.get_max_size(photo)[0])
                 photo_info.append(self.get_max_size(photo)[1])
