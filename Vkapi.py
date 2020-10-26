@@ -1,8 +1,8 @@
 import requests
 from urllib.parse import urljoin
+import datetime
 
-
-TOKEN = '958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008'
+TOKEN = ''
 V = '5.21'
 
 
@@ -58,7 +58,7 @@ class ApiVK:
                 name = photo['likes']['count']
                 names = [item[0] for item in album_info[album_title]]
                 if (str(name) + '.jpg') in names:
-                    name = str(name) + '(' + str(photo['date']) + ')'
+                    name = str(name) + '(' + str(datetime.datetime.fromtimestamp(photo['date'])).replace(':','-') + ')'
                 photo_info.append(str(name) + '.jpg')
                 photo_info.append(self.get_max_size(photo)[0])
                 photo_info.append(self.get_max_size(photo)[1])
