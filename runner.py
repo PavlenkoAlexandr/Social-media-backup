@@ -29,5 +29,3 @@ def run():
         answer = input('Выберите облачный сервис\ny - ЯндексДиск\ng - GoogleDrive\n')
     comand += answer
     return comands[comand].run()
-
-run()
